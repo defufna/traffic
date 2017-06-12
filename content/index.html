@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
+    <title>title</title>
+    <style>
+        html{
+            height: 100%;
+        }
+        body{
+            background-color: #222222;
+            height: 100%;
+            margin: 0 0 0 0;
+            padding: 0 0 0 0;
+        }
+        svg {
+            height: 100%;
+            display: block;
+            margin: auto;
+        }
+
+        #stop, #walk{
+            transition: opacity 1s;
+        }
+
+        .blink{
+            animation: fadeout 0.3s 5;
+            animation-direction: alternate;
+            animation-play-state: running;
+
+        }
+
+        @keyframes fadeout{
+            0%{
+                opacity: 1.0;
+            }
+
+            100%{
+                opacity: 0.0;
+            }
+        }
+
+    </style>
+
+    <script>
+      function getStatus(onload){
+          var request = new XMLHttpRequest();
+          request.open('GET', '/status', true);
+          request.onload = function(){
+              if(request.status != 200){
+                  return;
+              }
+
+              status = parseInt(request.responseText);
+              onload(status);
+          }
+          request.send();
+      }
+
+      function toggle(){
+          var request = new XMLHttpRequest();
+          request.open('POST', '/toggle', true);
+          request.send();
+      }
+
+      function setLight(status, walk, stop){
+          if(status == 0){
+              walk.style.opacity = 0.0;
+          }else if (status == 1) {
+              walk.style.opacity = 1.0;
+          }
+
+          stop.style.opacity = 1 - walk.style.opacity;
+      }
+
+      function refreshStatus(walk, stop){
+          getStatus(function(status){
+              setLight(status, walk, stop);
+              setTimeout(function(){refreshStatus(walk, stop)}, 1000);
+          });
+      }
+
+      function loaded(){
+          var walk = document.getElementById("walk");
+          var stop = document.getElementById("stop");
+
+          refreshStatus(walk, stop);
+       }
+
+       function ensureFullscreen(){
+           if((document.mozFullScreen || document.webkitIsFullScreen)){
+               return true;
+           }
+
+           if(document.documentElement.mozRequestFullScreen){
+               document.documentElement.mozRequestFullScreen();
+           }else if(document.documentElement.webkitRequestFullScreen){
+               document.documentElement.webkitRequestFullScreen();
+           }
+
+           return false;
+       }
+
+       function clicked(){
+           if(!ensureFullscreen()){
+               return;
+           }
+
+           toggle();
+       }
+    </script>
+  </head>
+  <body onclick="clicked()" onload="loaded()">
+      <svg
+         xmlns:dc="http://purl.org/dc/elements/1.1/"
+         xmlns:cc="http://creativecommons.org/ns#"
+         xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:svg="http://www.w3.org/2000/svg"
+         xmlns="http://www.w3.org/2000/svg"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         version="1.1"
+         id="svg2"
+         viewBox="0 0 526.27934 1029.3352"
+         >
+        <defs
+           id="defs4">
+          <pattern
+             patternTransform="matrix(2.5397354,0.72870043,-3.2759846,11.41777,108.90759,11.405083)"
+             id="pattern6205"
+             xlink:href="#pattern5879" />
+          <linearGradient
+             id="linearGradient5881">
+            <stop
+               id="stop6149"
+               offset="0"
+               style="stop-color:#ff0303;stop-opacity:1;" />
+            <stop
+               style="stop-color:#ff0303;stop-opacity:0.38039216;"
+               offset="0.79553443"
+               id="stop6151" />
+            <stop
+               id="stop6153"
+               offset="1"
+               style="stop-color:#ff0303;stop-opacity:0;" />
+          </linearGradient>
+          <linearGradient
+             id="linearGradient6155">
+            <stop
+               style="stop-color:#00ff03;stop-opacity:1"
+               offset="0"
+               id="stop6139" />
+            <stop
+               id="stop6141"
+               offset="0.79553443"
+               style="stop-color:#00ff03;stop-opacity:0.38039216" />
+            <stop
+               style="stop-color:#00ff3a;stop-opacity:0"
+               offset="1"
+               id="stop6143" />
+          </linearGradient>
+          <pattern
+             patternTransform="matrix(2.5397354,0.72870043,-3.2759846,11.41777,-3e-7,0)"
+             id="pattern5990"
+             xlink:href="#pattern5879" />
+          <pattern
+             patternTransform="matrix(2.5397354,0.72870043,-3.2759846,11.41777,-3.6050643e-7,1.4592767e-7)"
+             id="pattern5879"
+             xlink:href="#Strips1_1" />
+          <pattern
+             patternUnits="userSpaceOnUse"
+             width="2"
+             height="1"
+             patternTransform="translate(0,0) scale(10,10)"
+             id="Strips1_1">
+            <rect
+               style="fill:black;stroke:none"
+               x="0"
+               y="-0.5"
+               width="1"
+               height="2"
+               id="rect5157" />
+          </pattern>
+          <radialGradient
+             gradientTransform="matrix(1.0455889,0,0,1.0953202,-17.039133,-36.415534)"
+             gradientUnits="userSpaceOnUse"
+             r="208.51591"
+             fy="292.64444"
+             fx="373.75644"
+             cy="292.64444"
+             cx="373.75644"
+             id="radialGradient5887"
+             xlink:href="#linearGradient5881" />
+          <radialGradient
+             r="208.51591"
+             fy="292.64444"
+             fx="373.75644"
+             cy="292.64444"
+             cx="373.75644"
+             gradientTransform="matrix(1.0455889,0,0,1.0953202,-125.94672,438.80036)"
+             gradientUnits="userSpaceOnUse"
+             id="radialGradient5992"
+             xlink:href="#linearGradient6155" />
+        </defs>
+        <metadata
+           id="metadata7">
+          <rdf:RDF>
+            <cc:Work
+               rdf:about="">
+              <dc:format>image/svg+xml</dc:format>
+              <dc:type
+                 rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+              <dc:title></dc:title>
+            </cc:Work>
+          </rdf:RDF>
+        </metadata>
+        <g
+           id="g5015">
+          <rect
+             y="0.52882642"
+             x="0.52882665"
+             height="1028.2776"
+             width="525.22168"
+             id="rect4409"
+             style="fill:#222222;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0;" />
+          <circle
+             style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:none;marker-mid:none;marker-end:none;enable-background:accumulate"
+             id="circle5984"
+             cx="264.84885"
+             cy="752.86029"
+             r="223.51591" />
+             <g id="walk">
+          <circle
+             cy="759.33972"
+             cx="264.84885"
+             id="circle5986"
+             style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;fill:url(#radialGradient5992);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:none;marker-mid:none;marker-end:none;enable-background:accumulate"
+             r="217.03651" />
+         </g>
+          <g
+             id="g5977"
+             transform="translate(-108.90759,-11.405083)">
+            <circle
+               style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:none;marker-mid:none;marker-end:none;enable-background:accumulate"
+               id="path4411"
+               cx="373.75644"
+               cy="277.64444"
+               r="223.51591" />
+           <g id="stop">
+                <circle
+                   cy="284.12384"
+                   cx="373.75644"
+                   style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:1;fill:url(#radialGradient5887);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:none;marker-mid:none;marker-end:none;enable-background:accumulate"
+                   r="217.03651" />
+           </g>
+            <circle
+               style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:0.32400004;fill:url(#pattern6205);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:none;marker-mid:none;marker-end:none;enable-background:accumulate"
+               id="circle4436"
+               cx="373.75644"
+               cy="284.5972"
+               r="214.66969" />
+          </g>
+          <g
+             style="fill:#1d1d1d;fill-opacity:1"
+             transform="matrix(0.67237753,0,0,0.67237753,98.36865,112.86251)"
+             id="g4321">
+            <g
+               style="fill:#1d1d1d;fill-opacity:1"
+               id="g4279">
+              <path
+                 style="fill:#1d1d1d;fill-opacity:1"
+                 d="m 197,476 c 0,14 6.833,21 20.5,21 13.667,0 20.5,-7 20.5,-21 l 0,-194 21,0 0,194 c 0,14 6.833,21 20.5,21 13.667,0 20.5,-7 20.5,-21 l 0,-327 10,0 0,121 c 0,7.334 2.5,12.667 7.5,16 5,3.333 10.167,3.333 15.5,0 5.333,-3.333 8,-8.667 8,-16 l 0,-125 c 0,-14 -4.667,-25.5 -14,-34.5 -9.333,-9 -22,-13.5 -38,-13.5 l -81,0 c -15.333,0 -27.833,4.333 -37.5,13 -9.667,8.667 -14.5,20 -14.5,34 l 0,127 c 0,6.667 2.667,11.333 8,14 5.333,2.667 10.5,2.667 15.5,0 5,-2.667 7.5,-7.334 7.5,-14 l 0,-122 10,0 0,327 z"
+                 id="path4281" />
+              <path
+                 style="fill:#1d1d1d;fill-opacity:1"
+                 d="m 205,42.5 c 0,11.667 4.167,21.667 12.5,30 8.333,8.333 18.333,12.5 30,12.5 11.667,0 21.5,-4.167 29.5,-12.5 8,-8.333 12,-18.333 12,-30 0,-11.667 -4,-21.667 -12,-30 C 269,4.167 259.167,0 247.5,0 c -11.667,0 -21.667,4.167 -30,12.5 -8.333,8.333 -12.5,18.333 -12.5,30 z"
+                 id="path4283" />
+            </g>
+            <g
+               style="fill:#1d1d1d;fill-opacity:1"
+               id="g4285" />
+            <g
+               style="fill:#1d1d1d;fill-opacity:1"
+               id="g4287" />
+            <g
+               style="fill:#1d1d1d;fill-opacity:1"
+               id="g4289" />
+            <g
+               style="fill:#1d1d1d;fill-opacity:1"
+               id="g4291" />
+            <g
+               style="fill:#1d1d1d;fill-opacity:1"
+               id="g4293" />
+            <g
+               style="fill:#1d1d1d;fill-opacity:1"
+               id="g4295" />
+            <g
+               style="fill:#1d1d1d;fill-opacity:1"
+               id="g4297" />
+            <g
+               style="fill:#1d1d1d;fill-opacity:1"
+               id="g4299" />
+            <g
+               style="fill:#1d1d1d;fill-opacity:1"
+               id="g4301" />
+            <g
+               style="fill:#1d1d1d;fill-opacity:1"
+               id="g4303" />
+            <g
+               style="fill:#1d1d1d;fill-opacity:1"
+               id="g4305" />
+            <g
+               style="fill:#1d1d1d;fill-opacity:1"
+               id="g4307" />
+            <g
+               style="fill:#1d1d1d;fill-opacity:1"
+               id="g4309" />
+            <g
+               style="fill:#1d1d1d;fill-opacity:1"
+               id="g4311" />
+            <g
+               style="fill:#1d1d1d;fill-opacity:1"
+               id="g4313" />
+          </g>
+          <circle
+             style="color:#000000;display:inline;overflow:visible;visibility:visible;opacity:0.32400004;fill:url(#pattern5990);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:none;marker-mid:none;marker-end:none;enable-background:accumulate"
+             id="circle5988"
+             cx="261.47339"
+             cy="759.49677"
+             r="214.66969" />
+          <g
+             style="fill:#1d1d1d;fill-opacity:1"
+             transform="matrix(0.67237753,0,0,0.67237753,117.25774,582.62858)"
+             id="g4386">
+            <g
+               style="fill:#1d1d1d;fill-opacity:1"
+               id="g4342">
+              <g
+                 style="fill:#1d1d1d;fill-opacity:1"
+                 id="g4344">
+                <path
+                   style="fill:#1d1d1d;fill-opacity:1"
+                   d="m 223.821,76.022 c 10.333,-0.333 19,-4.333 26,-12 7,-7.667 10.333,-16.667 10,-27 -0.333,-10.335 -4.167,-19.168 -11.5,-26.5 -7.333,-7.333 -16.167,-10.833 -26.5,-10.5 -10.333,0.333 -19,4.333 -26,12 -7,7.667 -10.5,16.667 -10.5,27 0,10.333 3.833,19.167 11.5,26.5 7.667,7.333 16.667,10.833 27,10.5 z"
+                   id="path4346" />
+                <path
+                   style="fill:#1d1d1d;fill-opacity:1"
+                   d="m 350.321,202.522 -55,-30 -45,-72 c -8.667,-10.667 -19.333,-16 -32,-16 -8.667,0 -17,3.667 -25,11 l -68,69 c -2,2.667 -3.333,5.667 -4,9 l -9,77 0,2 c 0,4.666 1.667,8.666 5,12 3.333,3.332 7.333,5 12,5 4.667,0 8.5,-1.668 11.5,-5 3,-3.334 4.833,-7 5.5,-11 l 7,-66 24,-24 -22,184 -39,87.001 c -1.333,4 -2,7.658 -2,11.002 0,7.322 2.5,13.5 7.5,18.5 5,5 11.167,7.164 18.5,6.5 10,0 17.333,-4.678 22,-14 l 42,-94.002 c 0,-0.67 0.333,-1.835 1,-3.5 0.668,-1.67 1.335,-3.17 2,-4.5 0.667,-1.335 1,-2.67 1,-4 l 5,-45.001 43,148.003 c 4.667,12 13,17.666 25,17 6.667,0 12.5,-2.5 17.5,-7.5 5,-5 7.5,-11.178 7.5,-18.5 0,-0.678 -0.167,-1.5 -0.5,-2.5 -0.333,-1 -0.5,-1.836 -0.5,-2.502 l -60,-205.001 7,-67 17,27 c 1.333,2 3,3.667 5,5 l 59,33 c 4,1.333 6.667,2 8,2 4.667,0 8.667,-1.833 12,-5.5 3.333,-3.668 5,-7.834 5,-12.5 0,-6 -2.667,-10.667 -8,-14 z"
+                   id="path4348" />
+              </g>
+            </g>
+            <g
+               style="fill:#1d1d1d;fill-opacity:1"
+               id="g4350" />
+            <g
+               style="fill:#1d1d1d;fill-opacity:1"
+               id="g4352" />
+            <g
+               style="fill:#1d1d1d;fill-opacity:1"
+               id="g4354" />
+            <g
+               style="fill:#1d1d1d;fill-opacity:1"
+               id="g4356" />
+            <g
+               style="fill:#1d1d1d;fill-opacity:1"
+               id="g4358" />
+            <g
+               style="fill:#1d1d1d;fill-opacity:1"
+               id="g4360" />
+            <g
+               style="fill:#1d1d1d;fill-opacity:1"
+               id="g4362" />
+            <g
+               style="fill:#1d1d1d;fill-opacity:1"
+               id="g4364" />
+            <g
+               style="fill:#1d1d1d;fill-opacity:1"
+               id="g4366" />
+            <g
+               style="fill:#1d1d1d;fill-opacity:1"
+               id="g4368" />
+            <g
+               style="fill:#1d1d1d;fill-opacity:1"
+               id="g4370" />
+            <g
+               style="fill:#1d1d1d;fill-opacity:1"
+               id="g4372" />
+            <g
+               style="fill:#1d1d1d;fill-opacity:1"
+               id="g4374" />
+            <g
+               style="fill:#1d1d1d;fill-opacity:1"
+               id="g4376" />
+            <g
+               style="fill:#1d1d1d;fill-opacity:1"
+               id="g4378" />
+          </g>
+        </g>
+      </svg>
+  </body>
+</html>
