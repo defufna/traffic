@@ -1,15 +1,15 @@
-#Traffic!
+# Traffic!
 
-##About
+## About
 
 Simple web page that simulates pedestrian traffic light. I made it to teach my
 child about traffic lights.
 
-##Requirements
+## Requirements
 
 Python 3.4 (it might work on older Python3)
 
-##Usage
+## Usage
 
 Extract all files, navigate to folder and execute:
 
@@ -25,5 +25,6 @@ If you want different port then 8000, pass it as an argument to traffic.py.
 
 `python ./traffic.py 80`
 
-##Credits
+## Credits
+
 Pedestrian icons made by [Scott de Jonge](http://www.flaticon.com/authors/scott-de-jonge) from [www.flaticon.com](http://www.flaticon.com)
